@@ -4,6 +4,7 @@ import kz.dar.academy.backend.feign.ClientFeign;
 import kz.dar.academy.backend.feign.PostFeign;
 import kz.dar.academy.backend.model.ClientResponse;
 import kz.dar.academy.backend.model.PostResponse;
+import kz.dar.academy.backend.service.PostDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,9 @@ public class PostOfficeController {
 
     @Autowired
     PostFeign postFeign;
+
+    @Autowired
+    PostDetailsService postDetailsService;
 
     @GetMapping("/check")
     public String checkPostOffice() {
@@ -56,4 +60,8 @@ public class PostOfficeController {
         return postFeign.getPostById(postId);
     }
 
+    @GetMapping("/post-detail/{postId}")
+    public PostResponse getPostDetail(String postId) {
+        return postDetailsService.getPostDetailsByPostId(postId);
+    }
 }
