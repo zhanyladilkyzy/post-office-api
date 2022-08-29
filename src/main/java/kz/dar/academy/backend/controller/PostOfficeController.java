@@ -2,13 +2,14 @@ package kz.dar.academy.backend.controller;
 
 import kz.dar.academy.backend.feign.ClientFeign;
 import kz.dar.academy.backend.feign.PostFeign;
+import kz.dar.academy.backend.model.ClientRequest;
 import kz.dar.academy.backend.model.ClientResponse;
+import kz.dar.academy.backend.model.PostRequest;
 import kz.dar.academy.backend.model.PostResponse;
 import kz.dar.academy.backend.service.PostDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class PostOfficeController {
         return "Post-office controller is working!!!";
     }
 
+
+
     @GetMapping("/client/check")
     public String checkClient() {
         return clientFeign.checkClient();
@@ -40,10 +43,27 @@ public class PostOfficeController {
         return clientFeign.getAllClients();
     }
 
+    @PostMapping("/client/create")
+    public ClientResponse createClient(@RequestBody ClientRequest clientRequest) {
+        return clientFeign.createClient(clientRequest);
+    }
     @GetMapping("/client/{clientId}")
-    public ClientResponse getClientById(String clientId) {
+    public ClientResponse getClientById(@PathVariable String clientId) {
         return clientFeign.getClientById(clientId);
     }
+
+    @PutMapping("/client/{clientId}")
+    public ClientResponse updateClient(@PathVariable String clientId, @RequestBody ClientRequest clientRequest) {
+        return clientFeign.updateClient(clientId, clientRequest);
+    }
+
+    @DeleteMapping("/client/{clientId}")
+    public ResponseEntity<String> deleteClient(@PathVariable String clientId) {
+        return clientFeign.deleteClient(clientId);
+    }
+
+
+
 
     @GetMapping("/post/check")
     public String checkPost() {
@@ -56,12 +76,27 @@ public class PostOfficeController {
     }
 
     @GetMapping("/post/{postId}")
-    public PostResponse getPostById(String postId) {
+    public PostResponse getPostById(@PathVariable String postId) {
         return postFeign.getPostById(postId);
     }
 
     @GetMapping("/post-detail/{postId}")
-    public PostResponse getPostDetail(String postId) {
+    public PostResponse getPostDetail(@PathVariable String postId) {
         return postDetailsService.getPostDetailsByPostId(postId);
+    }
+
+    @PostMapping("/post")
+    public PostResponse createPost(@RequestBody PostRequest postRequest) {
+        return postFeign.createPost(postRequest);
+    }
+
+    @PutMapping("/post/{postId}")
+    public PostResponse updatePost(@PathVariable String postId, @RequestBody PostRequest postRequest) {
+        return postFeign.updatePost(postId, postRequest);
+    }
+
+    @DeleteMapping("/post/{postId}")
+    public ResponseEntity<String> deletePost(@PathVariable String postId) {
+        return postFeign.deletePost(postId);
     }
 }

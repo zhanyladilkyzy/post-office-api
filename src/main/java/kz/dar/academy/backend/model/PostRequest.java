@@ -4,12 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClientResponse {
+public class PostRequest {
+
+    private String postId;
+
+    @NotNull
     private String clientId;
-    private String name;
-    private String surname;
-    private String phoneNumber;
+
+    @NotNull
+    private String postRecipientId;
+
+    private String status;
+
 }

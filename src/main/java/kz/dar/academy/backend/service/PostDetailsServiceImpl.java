@@ -19,14 +19,15 @@ public class PostDetailsServiceImpl implements PostDetailsService {
 
     @Override
     public PostResponse getPostDetailsByPostId(String postId) {
-        List<ClientResponse> clientResponses = clientFeign.getAllClients();
-        List<PostResponse> postResponses = postFeign.getAllPosts();
-        for (int i = 0; i < postResponses.size(); i++) {
-            postResponses.get(i).setClient(clientResponses.get(i));
-            postResponses.get(i).setReceiver(clientResponses.get(i));
-        }
-        List<PostResponse> response = postResponses.stream()
-                .filter(postResponse -> postResponse.getPostId().equals(postId)).collect(Collectors.toList());
-        return response.get(0);
+        return postFeign.getPostById(postId);
+//        List<ClientResponse> clientResponses = clientFeign.getAllClients();
+//        List<PostResponse> postResponses = postFeign.getAllPosts();
+//        for (int i = 0; i < postResponses.size(); i++) {
+//            postResponses.get(i).setClient(clientResponses.get(i));
+//            postResponses.get(i).setReceiver(clientResponses.get(i));
+//        }
+//        List<PostResponse> response = postResponses.stream()
+//                .filter(postResponse -> postResponse.getPostId().equals(postId)).collect(Collectors.toList());
+//        return response.get(0);
     }
 }
